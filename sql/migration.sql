@@ -9,5 +9,7 @@ CREATE TABLE IF NOT EXISTS public.variador
     frecuencia float,
     tension float,
     dc_bus float,
+    trip1 int,
+    trip2 int,
     PRIMARY KEY (id)
 );

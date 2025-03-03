@@ -36,6 +36,11 @@ def get_last_value():
     ]
     return(valores_fin)
 
+def get_info_value():
+    result = session.query(Variador).order_by(Variador.id.desc()).first()
+    valores = result.__dict__
+    return(valores)
+
 ## Consultas graficos
 def get_df():
     today = datetime.date.today()
