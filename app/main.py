@@ -25,7 +25,8 @@ from app.control import (
     Info_Control_variador, 
     Info_Avanzada_Variador, 
     Info_Alarmas_Variador,
-    Info_Actual_Variador
+    Info_Actual_Variador,
+    Info_Estado
 )
 
 hdrs = (MarkdownJS(), HighlightJS(langs=['python', 'javascript', 'html', 'css']), altair_headers, Theme.green.headers())
@@ -57,8 +58,8 @@ def index():
         Grid(
         *map(Div,(
                     Div(Info_Control_variador(), cls='space-y-4'),
-                    Div(Info_Avanzada_Variador(), cls='space-y-4'),
-                    Div(Info_Actual_Variador(valores), Info_Alarmas_Variador(), cls='space-y-4'),
+                    Div(Info_Estado(valores), Info_Avanzada_Variador(), cls='space-y-4'),
+                    Div(Info_Actual_Variador(valores), Info_Alarmas_Variador(valores), cls='space-y-4'),
                     )
             ),
         cols_md=1, cols_lg=2, cols_xl=3))

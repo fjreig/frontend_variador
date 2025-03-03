@@ -20,7 +20,7 @@ class Variador(Base):
     dc_bus = Column(Float)
     trip1 = Column(Integer)
     trip2 = Column(Integer)
-    rpm = Column(Float)
+    #rpm = Column(Float)
 
 def get_all():
     result = session.query(Variador).limit(5).all()
