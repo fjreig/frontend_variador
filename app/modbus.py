@@ -1,6 +1,7 @@
 import pymodbus.client as ModbusClient
 from pymodbus import  FramerType, ModbusException, pymodbus_apply_logging_config
 from app.config import settings
+import json
 import os
 
 client: ModbusClient.ModbusBaseSyncClient
@@ -31,6 +32,26 @@ def Consulta_Inversor():
     valores = {'frecuencia_ref': frecuencia_ref, 'estado': estado, 'intensidad': intensidad, 
                'frecuencia': frecuencia, 'tension': tension, 'dc_bus': dc_bus }
     return(valores)
+
+def Consulta_Inversor_Avanzada():
+    Cadena1 = client.read_holding_registers(0, count=2, slave= int(os.environ['Variador']))
+    Cadena2 = client.read_holding_registers(6, count=2, slave= int(os.environ['Variador']))
+    Cadena3 = client.read_holding_registers(20, count=1, slave= int(os.environ['Variador']))
+    Cadena4 = client.read_holding_registers(815, count=2, slave= int(os.environ['Variador']))
+
+    potencia_variador = twosComplement_hex(hex(Cadena1.registers[0]))
+    input_voltaje = twosComplement_hex(hex(Cadena1.registers[1]))
+    acceleration_time = float(twosComplement_hex(hex(Cadena2.registers[0]))) / 10
+    desacceleration_time = float(twosComplement_hex(hex(Cadena2.registers[0]))) / 10
+    rpm = float(twosComplement_hex(hex(Cadena3.registers[0])))
+    trip1 = twosComplement_hex(hex(Cadena4.registers[0]))
+    trip2 = twosComplement_hex(hex(Cadena4.registers[1]))
+
+    valores = {'potencia_variador': potencia_variador, 'input_voltaje': input_voltaje, 'acceleration_time': acceleration_time, 
+               'desacceleration_time': desacceleration_time, 'rpm': rpm, 'trip1': trip1, 'trip2': trip2 }
+    
+    with open('app/data/configuracion_variador.json', 'w') as fp:
+        json.dump(valores, fp)
 
 def Escribir_variador(valores):
     estado = valores['estado']

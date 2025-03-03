@@ -16,15 +16,14 @@ def table_valores(body_data):
 
 def pagina_final(valores):
     return Title("Modbus Desk Dashboard"), Container(
-            DivFullySpaced(
-                H2("Monitorizacion Power Electronics"),
-                DivRAligned(
-                    Button(UkIcon("plus-circle", cls="mr-2"), "Actualizar", cls=ButtonT.primary, hx_post="/update"),
-                    Button("Graficas", cls=ButtonT.primary, hx_post="/graficas",),
-                    Button("Control", cls=ButtonT.destructive, hx_post="/control_vari"),
-                ),
-                cls='mb-8'),
+            
+            H2("Monitorizacion Power Electronics"),
+            DivRAligned(
+                Button(UkIcon("plus-circle", cls="mr-2"), "Actualizar", cls=ButtonT.primary, hx_post="/update"),
+                Button("Graficas", cls=ButtonT.primary, hx_post="/graficas",),
+                Button("Control", cls=ButtonT.destructive, hx_post="/control_vari"),
+            ), 
             table_valores(valores),
             Loading(htmx_indicator=True, type=LoadingT.dots, cls="fixed top-0 right-0 m-4"),
-            cls="mx-auto max-w-7xl"
+            cls=('space-y-4', ContainerT.xl)
         )

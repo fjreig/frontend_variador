@@ -9,9 +9,10 @@ from typing import Optional
 from app.table import pagina_final
 from app.models import (
     get_df,
+    get_info_value,
     new_register
 )
-from app.modbus import Consulta_Inversor, Escribir_variador
+from app.modbus import Consulta_Inversor, Escribir_variador, Consulta_Inversor_Avanzada
 from app.src import Obtener_todos_equipos
 from app.dashboard import (
     generate_chart_Intensidades,
@@ -20,7 +21,12 @@ from app.dashboard import (
     Generar_Cards
 )
 
-from app.control import Control_Variador
+from app.control import (
+    Info_Control_variador, 
+    Info_Avanzada_Variador, 
+    Info_Alarmas_Variador,
+    Info_Actual_Variador
+)
 
 hdrs = (MarkdownJS(), HighlightJS(langs=['python', 'javascript', 'html', 'css']), altair_headers, Theme.green.headers())
 app, rt = fast_app(hdrs=hdrs)
@@ -41,18 +47,21 @@ def tabla():
 
 @rt('/control')
 def index():
+    valores = get_info_value()
     return Title("Control del variador"),Container(
-            DivRAligned(
-                Button("Graficas", cls=ButtonT.primary, hx_post="/graficas",),
-                Button("Refrescar", cls=ButtonT.primary, hx_post="/graficas",),
-                Button("Volver", cls=ButtonT.destructive, hx_post="/return",),
+        H2('Control'),
+        DivRAligned(
+            Button("Graficas", cls=ButtonT.primary, hx_post="/graficas",),
+            Button("Volver", cls=ButtonT.destructive, hx_post="/return",),
+        ),
+        Grid(
+        *map(Div,(
+                    Div(Info_Control_variador(), cls='space-y-4'),
+                    Div(Info_Avanzada_Variador(), cls='space-y-4'),
+                    Div(Info_Actual_Variador(valores), Info_Alarmas_Variador(), cls='space-y-4'),
+                    )
             ),
-            Grid(
-            *map(Div,(
-                      Div(Control_Variador, cls='space-y-4'),
-                      )
-                ),
-         cols_md=1, cols_lg=2, cols_xl=3))
+        cols_md=1, cols_lg=2, cols_xl=3))
 
 @rt("/Grafico")
 def graficos():
@@ -83,6 +92,7 @@ def post():
 def post(valor: Control_variador):
     valor = valor.__dict__
     Escribir_variador(valor)
+    Consulta_Inversor_Avanzada()
     return Redirect(f"/")
 
 @app.post("/return")
