@@ -1,0 +1,7 @@
+pydantic
+requests
+pymodbus
+pandas
+pydantic_settings
+psycopg2
+SQLAlchemy
