@@ -11,5 +11,6 @@ CREATE TABLE IF NOT EXISTS public.variador
     dc_bus float,
     trip1 int,
     trip2 int,
+    rpm float,
     PRIMARY KEY (id)
 );

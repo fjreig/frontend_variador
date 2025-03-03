@@ -17,6 +17,7 @@ class Variador(Base):
     dc_bus = Column(Float)
     trip1 = Column(Integer)
     trip2 = Column(Integer)
+    rpm = Column(Float)
 
 def new_register_variador(valores):
     registro = Variador(**valores) 

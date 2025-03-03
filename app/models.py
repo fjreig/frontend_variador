@@ -20,6 +20,7 @@ class Variador(Base):
     dc_bus = Column(Float)
     trip1 = Column(Integer)
     trip2 = Column(Integer)
+    rpm = Column(Float)
 
 def get_all():
     result = session.query(Variador).limit(5).all()
@@ -34,6 +35,7 @@ def get_last_value():
         {'Variable': 'Intensidad', 'Valor': valores['intensidad'], 'Unidades': 'A', 'Fecha_Actualizacion': valores['fecha']},
         {'Variable': 'Tension', 'Valor': valores['tension'], 'Unidades': 'V', 'Fecha_Actualizacion': valores['fecha']},
         {'Variable': 'Bus DC', 'Valor': valores['dc_bus'], 'Unidades': 'V', 'Fecha_Actualizacion': valores['fecha']},
+        {'Variable': 'RPM', 'Valor': valores['rpm'], 'Unidades': 'rpm', 'Fecha_Actualizacion': valores['fecha']},
         {'Variable': 'Estado', 'Valor': valores['estado'], 'Unidades': '-', 'Fecha_Actualizacion': valores['fecha']},
         {'Variable': 'Alarma 1', 'Valor': valores['trip1'], 'Unidades': '-', 'Fecha_Actualizacion': valores['fecha']},
         {'Variable': 'alarma 2', 'Valor': valores['trip2'], 'Unidades': '-', 'Fecha_Actualizacion': valores['fecha']},

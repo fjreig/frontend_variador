@@ -22,6 +22,7 @@ def Consulta_Variador():
     Cadena1 = client.read_holding_registers(4, count=8, slave= int(os.environ['Variador']))
     Cadena2 = client.read_holding_registers(13, count=1, slave= int(os.environ['Variador']))
     Cadena3 = client.read_holding_registers(815, count=2, slave= int(os.environ['Variador']))
+    Cadena4 = client.read_holding_registers(20, count=1, slave= int(os.environ['Variador']))
 
     frecuencia_ref = float(twosComplement_hex(hex(Cadena1.registers[0]))) / 100
     intensidad = float(twosComplement_hex(hex(Cadena1.registers[4])))
@@ -31,8 +32,9 @@ def Consulta_Variador():
     estado = int(twosComplement_hex(hex(Cadena2.registers[0])))
     trip1 = twosComplement_hex(hex(Cadena3.registers[0]))
     trip2 = twosComplement_hex(hex(Cadena3.registers[1]))
+    rpm = float(twosComplement_hex(hex(Cadena4.registers[0])))
     
     valores = {'fecha' : datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'), 'frecuencia_ref': frecuencia_ref,
         'estado': estado, 'intensidad': intensidad, 'frecuencia': frecuencia, 'tension': tension,
-        'dc_bus': dc_bus, 'trip1': trip1, 'trip2': trip2 }
+        'dc_bus': dc_bus, 'trip1': trip1, 'trip2': trip2, 'rpm': rpm }
     return(valores)
