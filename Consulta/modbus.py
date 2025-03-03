@@ -18,7 +18,7 @@ def twosComplement_hex(hexval):
         val -= 1 << bits
     return val
 
-def Consulta_Variador(Cadena1, Cadena2, Cadena3):
+def Consulta_Variador():
     Cadena1 = client.read_holding_registers(4, count=8, slave= int(os.environ['Variador']))
     Cadena2 = client.read_holding_registers(13, count=1, slave= int(os.environ['Variador']))
     Cadena3 = client.read_holding_registers(815, count=2, slave= int(os.environ['Variador']))

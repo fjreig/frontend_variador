@@ -15,6 +15,8 @@ class Variador(Base):
     frecuencia = Column(Float)
     tension = Column(Float)
     dc_bus = Column(Float)
+    trip1 = Column(Integer)
+    trip2 = Column(Integer)
 
 def new_register_variador(valores):
     registro = Variador(**valores) 
