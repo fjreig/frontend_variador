@@ -41,7 +41,7 @@ def Info_Avanzada_Variador():
             )
         )
 
-def Info_Alarmas_Variador(valores):
+def Info_Alarmas_Variador1(valores):
     valores = Componer_trip1(valores['trip1'])
     return(
         Card(
@@ -62,6 +62,30 @@ def Info_Alarmas_Variador(valores):
                     Tr(Td(H5('Short ARM')), Td(valores['Short ARM'])),
                     Tr(Td(H5('OverHeat')), Td(valores['OverHeat'])),
                     Tr(Td(H5('Fuse Open')), Td(valores['Fuse Open'])),
+                )
+            ),    
+            header = (H4('Alertas del variador'))
+            )
+        )
+
+def Info_Alarmas_Variador2(valores):
+    valores = Componer_trip2(valores['trip2'])
+    return(
+        Card(
+            Table(
+                Tbody(
+                    Tr(Td(H5('Mc-Fail')), Td(valores['Mc-Fail'])),
+                    Tr(Td(H5('Encoder Error')), Td(valores['Encoder Error'])),
+                    Tr(Td(H5('PTC')), Td(valores['PTC'])),
+                    Tr(Td(H5('FAN TRIP')), Td(valores['FAN TRIP'])),
+                    Tr(Td(H5('Param_Wr_Err')), Td(valores['Param_Wr_Err'])),
+                    Tr(Td(H5('Pipe Fill Fit')), Td(valores['Pipe Fill Fit'])),
+                    Tr(Td(H5('IO Board Fail')), Td(valores['IO Board Fail'])),
+                    Tr(Td(H5('External Brake')), Td(valores['External Brake'])),
+                    Tr(Td(H5('No Motor')), Td(valores['No Motor'])),
+                    Tr(Td(H5('Slot 1 Fail')), Td(valores['Slot 1 Fail'])),
+                    Tr(Td(H5('Slot 2 Fail')), Td(valores['Slot 2 Fail'])),
+                    Tr(Td(H5('Slot 3 Fail')), Td(valores['Slot 3 Fail'])),
                 )
             ),    
             header = (H4('Alertas del variador'))
@@ -108,15 +132,42 @@ def Info_Estado(valores):
 def Componer_estado(estado):
     estado = '{0:016b}'.format(estado)
     estado = estado[::-1]
+    valores = [0] * 16
+    for i in range(len(estado)):
+        if estado[i] == '0':
+            valores[i] = UkIcon("check")
+        else:
+            valores[i] = UkIcon("circle-x")
     listado_setpoint = {0: "Local", 1: "Start/Stop-1",2: "Start/Stop-2", 3: "RS485 integrated", 4: "Communications Option", 5: "PLC Option"}
-    valor = {'Stop': estado[0], 'Forward': estado[1], 'Reverse': estado[2], 'Fault': estado[3], 'Emergency Stop': estado[4], 
-             'Setpoint': listado_setpoint[int(estado[6])], 'Reference Frequency': estado[9], 'Network Error': estado[15]}
+    valor = {'Stop': valores[0], 'Forward': valores[1], 'Reverse': valores[2], 'Fault': valores[3], 'Emergency Stop': valores[4], 
+             'Setpoint': listado_setpoint[int(estado[6])], 'Reference Frequency': valores[9], 'Network Error': valores[15]}
     return(valor)
 
 def Componer_trip1(trip1):
     trip1 = '{0:016b}'.format(trip1)
     trip1 = trip1[::-1]
-    valor = {'OverLoad': trip1[0], 'UnderLoad': trip1[1], 'Inv OverLoad': trip1[2], 'E-Thermal': trip1[3], 'Ground Fault': trip1[4], 
-            'Out Ph Loss': trip1[5], 'Input Ph Loss': trip1[6], 'OverSpeed': trip1[7], 'NTC': trip1[9], 'OverCurrent': trip1[10],
-            'OverVoltage': trip1[11], 'External Trip': trip1[12], 'Short ARM': trip1[13], 'OverHeat': trip1[14], "Fuse Open": trip1[15]}
+    valores = [0] * 16
+    for i in range(len(trip1)):
+        if trip1[i] == '0':
+            valores[i] = UkIcon("check")
+        else:
+            valores[i] = UkIcon("circle-x")
+    valor = {'OverLoad': valores[0], 'UnderLoad': valores[1], 'Inv OverLoad': valores[2], 'E-Thermal': valores[3], 'Ground Fault': valores[4], 
+            'Out Ph Loss': valores[5], 'Input Ph Loss': valores[6], 'OverSpeed': valores[7], 'NTC': valores[9], 'OverCurrent': valores[10],
+            'OverVoltage': valores[11], 'External Trip': valores[12], 'Short ARM': valores[13], 'OverHeat': valores[14], "Fuse Open": valores[15]}
+    return(valor)
+
+def Componer_trip2(trip2):
+    trip2 = '{0:016b}'.format(trip2)
+    trip2 = trip2[::-1]
+    valores = [0] * 16
+    for i in range(len(trip2)):
+        if trip2[i] == '0':
+            valores[i] = UkIcon("check")
+        else:
+            valores[i] = UkIcon("circle-x")
+    valor = {'Mc-Fail': valores[0], 'Encoder Error': valores[1], 'PTC': valores[2], 'FAN TRIP': valores[3], 'Param_Wr_Err': valores[5], 
+            'Pipe Fill Fit': valores[6], 'IO Board Fail': valores[7], 'External Brake': valores[8], 'No Motor': valores[9], 'Slot 1 Fail': valores[10],
+            'Slot 2 Fail': valores[11], 'Slot 3 Fail': valores[12]}
+    
     return(valor)

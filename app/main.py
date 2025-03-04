@@ -24,7 +24,8 @@ from app.dashboard import (
 from app.control import (
     Info_Control_variador, 
     Info_Avanzada_Variador, 
-    Info_Alarmas_Variador,
+    Info_Alarmas_Variador1,
+    Info_Alarmas_Variador2,
     Info_Actual_Variador,
     Info_Estado
 )
@@ -57,9 +58,9 @@ def index():
         ),
         Grid(
         *map(Div,(
-                    Div(Info_Control_variador(), cls='space-y-4'),
-                    Div(Info_Estado(valores), Info_Avanzada_Variador(), cls='space-y-4'),
-                    Div(Info_Actual_Variador(valores), Info_Alarmas_Variador(valores), cls='space-y-4'),
+                    Div(Info_Control_variador(),Info_Estado(valores), cls='space-y-4'),
+                    Div(Info_Avanzada_Variador(), Info_Alarmas_Variador1(valores), cls='space-y-4'),
+                    Div(Info_Actual_Variador(valores), Info_Alarmas_Variador2(valores), cls='space-y-4'),
                     )
             ),
         cols_md=1, cols_lg=2, cols_xl=3))
