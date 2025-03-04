@@ -124,10 +124,18 @@ def Info_Estado(valores):
                     Tr(Td(H5('Forward')), Td(valores['Forward'])),
                     Tr(Td(H5('Reverse')), Td(valores['Reverse'])),
                     Tr(Td(H5('Fault')), Td(valores['Fault'])),
-                    Tr(Td(H5('Emergency Stop')), Td(valores['Emergency Stop'])),
-                    Tr(Td(H5('Setpoint')), Td(valores['Setpoint'])),
-                    Tr(Td(H5('Reference Frequency')), Td(valores['Reference Frequency'])),
-                    Tr(Td(H5('Network Error')), Td(valores['Network Error'])),
+                    Tr(Td(H5('Acelerando')), Td(valores['Acelerando'])),
+                    Tr(Td(H5('Desacelerando')), Td(valores['Desacelerando'])),
+                    Tr(Td(H5('Steady')), Td(valores['Steady'])),
+                    Tr(Td(H5('DC Break')), Td(valores['DC Break'])),
+                    Tr(Td(H5('Stop')), Td(valores['Stop'])),
+                    Tr(Td(H5('Fix Frequency')), Td(valores['Fix Frequency'])),
+                    Tr(Td(H5('Open Break')), Td(valores['Open Break'])),
+                    Tr(Td(H5('Start Forward')), Td(valores['Start Forward'])),
+                    Tr(Td(H5('Start Reverse')), Td(valores['Start Reverse'])),
+                    Tr(Td(H5('Start/Stop Communication')), Td(valores['Start/Stop Communication'])),
+                    Tr(Td(H5('Frequency Communication')), Td(valores['Frequency Communication'])),
+                    Tr(Td(H5('Remote/local')), Td(valores['Remote/local'])),
                 )
             ),    
             header = (H4('Información Estado del variador'))
@@ -140,12 +148,13 @@ def Componer_estado(estado):
     valores = [0] * 16
     for i in range(len(estado)):
         if estado[i] == '0':
-            valores[i] = UkIcon("check")
-        else:
             valores[i] = UkIcon("circle-x")
-    listado_setpoint = {0: "Local", 1: "Start/Stop-1",2: "Start/Stop-2", 3: "RS485 integrated", 4: "Communications Option", 5: "PLC Option"}
-    valor = {'Stop': valores[0], 'Forward': valores[1], 'Reverse': valores[2], 'Fault': valores[3], 'Emergency Stop': valores[4], 
-             'Setpoint': listado_setpoint[int(estado[6])], 'Reference Frequency': valores[9], 'Network Error': valores[15]}
+        else:
+            valores[i] = UkIcon("check")
+    valor = {'Stop': valores[0], 'Forward': valores[1], 'Reverse': valores[2], 'Fault': valores[3], 'Acelerando': valores[4], 
+             'Desacelerando': valores[5], 'Steady': valores[6], 'DC Break': valores[7], 'Stop': valores[8],
+             'Fix Frequency': valores[9], 'Open Break': valores[10], 'Start Forward': valores[11], 'Start Reverse': valores[12],
+             'Start/Stop Communication': valores[13], 'Frequency Communication': valores[14], 'Remote/local': valores[15]}
     return(valor)
 
 def Componer_trip1(trip1):
@@ -154,9 +163,9 @@ def Componer_trip1(trip1):
     valores = [0] * 16
     for i in range(len(trip1)):
         if trip1[i] == '0':
-            valores[i] = UkIcon("check")
-        else:
             valores[i] = UkIcon("circle-x")
+        else:
+            valores[i] = UkIcon("check")
     valor = {'OverLoad': valores[0], 'UnderLoad': valores[1], 'Inv OverLoad': valores[2], 'E-Thermal': valores[3], 'Ground Fault': valores[4], 
             'Out Ph Loss': valores[5], 'Input Ph Loss': valores[6], 'OverSpeed': valores[7], 'NTC': valores[9], 'OverCurrent': valores[10],
             'OverVoltage': valores[11], 'External Trip': valores[12], 'Short ARM': valores[13], 'OverHeat': valores[14], "Fuse Open": valores[15]}
@@ -168,9 +177,9 @@ def Componer_trip2(trip2):
     valores = [0] * 16
     for i in range(len(trip2)):
         if trip2[i] == '0':
-            valores[i] = UkIcon("check")
-        else:
             valores[i] = UkIcon("circle-x")
+        else:
+            valores[i] = UkIcon("check")
     valor = {'Mc-Fail': valores[0], 'Encoder Error': valores[1], 'PTC': valores[2], 'FAN TRIP': valores[3], 'Param_Wr_Err': valores[5], 
             'Pipe Fill Fit': valores[6], 'IO Board Fail': valores[7], 'External Brake': valores[8], 'No Motor': valores[9], 'Slot 1 Fail': valores[10],
             'Slot 2 Fail': valores[11], 'Slot 3 Fail': valores[12]}

@@ -6,7 +6,7 @@ import plotly.express as px
 
 def generate_chart_Intensidades(df):    
     fig = px.line(df, x='fecha', y=['intensidad'],  template='plotly_white', line_shape='spline')
-    fig.update_traces(mode='lines+markers')
+    fig.update_traces(mode='lines')
     fig.update_layout(
         margin=dict(l=20, r=20, t=20, b=20), hovermode='x unified',
         showlegend=True, legend=dict(orientation='h', yanchor='bottom', y=1.02,  xanchor='right', x=1),
@@ -20,7 +20,7 @@ def generate_chart_Intensidades(df):
 
 def generate_chart_Tensiones(df):    
     fig = px.line(df,x='fecha', y=['tension'],template='plotly_white',line_shape='spline')
-    fig.update_traces(mode='lines+markers')
+    fig.update_traces(mode='lines')
     fig.update_layout(
         margin=dict(l=20, r=20, t=20, b=20), hovermode='x unified',
         showlegend=True, legend=dict(orientation='h', yanchor='bottom', y=1.02,  xanchor='right', x=1),
@@ -34,7 +34,7 @@ def generate_chart_Tensiones(df):
 
 def generate_chart_Frecuencias(df):    
     fig = px.line(df, x='fecha', y=['frecuencia', 'frecuencia_ref'],  template='plotly_white', line_shape='spline')
-    fig.update_traces(mode='lines+markers')
+    fig.update_traces(mode='lines')
     fig.update_layout(
         margin=dict(l=20, r=20, t=20, b=20), hovermode='x unified',
         showlegend=True, legend=dict(orientation='h', yanchor='bottom', y=1.02,  xanchor='right', x=1),
