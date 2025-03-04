@@ -93,16 +93,21 @@ def Info_Alarmas_Variador2(valores):
         )
 
 def Info_Actual_Variador(valores):
+    if valores['estado'] != '8193':
+        estado_inversor = UkIcon("circle-play",25,25)
+    else:
+        estado_inversor = UkIcon("circle-pause",25,25)
     return(
         Card(
             Table(
                 Tbody(
-                    Tr(Td(H5('Estado')), Td(UkIcon("circle", color="#ff0000"),)),
+                    Tr(Td(H5('Estado')), Td(estado_inversor)),
                     Tr(Td(H5('Frecuencia Refrencia')), Td(str(valores['frecuencia_ref']) + " Hz")),
                     Tr(Td(H5('Frecuencia')), Td(str(valores['frecuencia']) + " Hz")),
                     Tr(Td(H5('Intensidad')), Td(str(valores['intensidad']) + " A")),
                     Tr(Td(H5('Tension')), Td(str(valores['tension']) + " V")),
                     Tr(Td(H5('Bus DC')), Td(str(valores['dc_bus']) + " V")),
+                    Tr(Td(H5('RPM')), Td(str(valores['rpm']) + " rpm")),
                 )
             ),    
             header = (H4('Información Actual del variador'))
