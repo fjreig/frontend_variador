@@ -30,7 +30,7 @@ from app.control import (
     Info_Estado
 )
 
-hdrs = (MarkdownJS(), HighlightJS(langs=['python', 'javascript', 'html', 'css']), altair_headers, Theme.green.headers())
+hdrs = (MarkdownJS(), HighlightJS(langs=['python', 'javascript', 'html', 'css']), altair_headers, Theme.blue.headers())
 app, rt = fast_app(hdrs=hdrs)
 
 @dataclass
@@ -49,40 +49,60 @@ def tabla():
 
 @rt('/control')
 def index():
-    valores = get_info_value()
-    return Title("Control del variador"),Container(
-        H2('Control'),
-        DivRAligned(
-            Button("Graficas", cls=ButtonT.primary, hx_post="/graficas",),
-            Button("Volver", cls=ButtonT.destructive, hx_post="/return",),
-        ),
-        Grid(
-        *map(Div,(
-                    Div(Info_Control_variador(),Info_Estado(valores), cls='space-y-4'),
-                    Div(Info_Avanzada_Variador(), Info_Alarmas_Variador1(valores), cls='space-y-4'),
-                    Div(Info_Actual_Variador(valores), Info_Alarmas_Variador2(valores), cls='space-y-4'),
-                    )
-            ),
-        cols_md=1, cols_lg=2, cols_xl=3))
-
-@rt("/Grafico")
-def graficos():
-    df_variador = get_df()
-    return Title("Dashboard Power Electronics"), Container(
-        H2('Graficos'),
-        DivRAligned(
-                Button("Refrescar", cls=ButtonT.primary, hx_post="/graficas",),
-                Button("Control", cls=ButtonT.primary, hx_post="/control_vari",),
+    try:
+        valores = get_info_value()
+        return Title("Control del variador"),Container(
+            H2('Control'),
+            DivRAligned(
+                Button("Graficas", cls=ButtonT.primary, hx_post="/graficas",),
                 Button("Volver", cls=ButtonT.destructive, hx_post="/return",),
             ),
-        Generar_Cards(df_variador),
-        Grid(
-            Card(Safe(generate_chart_Intensidades(df_variador)), cls='col-span-2'),
-            Card(Safe(generate_chart_Tensiones(df_variador)), cls='col-span-2'),
-            Card(Safe(generate_chart_Frecuencias(df_variador)), cls='col-span-3'),
-            gap=2,cols_xl=7,cols_lg=7,cols_md=1,cols_sm=1,cols_xs=1),
-        cls=('space-y-4', ContainerT.xl)
+            Grid(
+            *map(Div,(
+                        Div(Info_Control_variador(),Info_Estado(valores), cls='space-y-4'),
+                        Div(Info_Avanzada_Variador(), Info_Alarmas_Variador1(valores), cls='space-y-4'),
+                        Div(Info_Actual_Variador(valores), Info_Alarmas_Variador2(valores), cls='space-y-4'),
+                        )
+                ),
+            cols_md=1, cols_lg=2, cols_xl=3))
+    except:
+        return Title("Control del variador"),Container(
+            H2('Control'),
+            DivRAligned(
+                Button("Graficas", cls=ButtonT.primary, hx_post="/graficas",),
+                Button("Volver", cls=ButtonT.destructive, hx_post="/return",),
+            ),
         )
+    
+@rt("/Grafico")
+def graficos():
+    try:
+        df_variador = get_df()
+        return Title("Dashboard Power Electronics"), Container(
+            H2('Graficos'),
+            DivRAligned(
+                    Button("Refrescar", cls=ButtonT.primary, hx_post="/graficas",),
+                    Button("Control", cls=ButtonT.primary, hx_post="/control_vari",),
+                    Button("Volver", cls=ButtonT.destructive, hx_post="/return",),
+                ),
+            Generar_Cards(df_variador),
+            Grid(
+                Card(Safe(generate_chart_Intensidades(df_variador)), cls='col-span-2'),
+                Card(Safe(generate_chart_Tensiones(df_variador)), cls='col-span-2'),
+                Card(Safe(generate_chart_Frecuencias(df_variador)), cls='col-span-3'),
+                gap=2,cols_xl=7,cols_lg=7,cols_md=1,cols_sm=1,cols_xs=1),
+            cls=('space-y-4', ContainerT.xl)
+            )
+    except:
+        return Title("Dashboard Power Electronics"), Container(
+            H2('Graficos'),
+            DivRAligned(
+                    Button("Refrescar", cls=ButtonT.primary, hx_post="/graficas",),
+                    Button("Control", cls=ButtonT.primary, hx_post="/control_vari",),
+                    Button("Volver", cls=ButtonT.destructive, hx_post="/return",),
+                ),
+            cls=('space-y-4', ContainerT.xl)
+            )
 
 @rt("/update")
 def post():
